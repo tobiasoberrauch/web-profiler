@@ -17,6 +17,12 @@
 - PRPL: Push, Reload, Pre-Load, Lazy-Load
 - https://github.com/Ehekatl/docker-nginx-http2
 
+## Offline first
+- navigator.serviceWorker.register('./worker.js')
+- https://jakearchibald.github.io/isserviceworkerready/
+- https://jakearchibald.com/2015/thats-so-fetch/
+- https://jakearchibald.com/2016/streams-ftw/
+
 ## Resources
 - https://github.com/ChromeDevTools
 - https://developers.google.com/web/tools/chrome-devtools/profile/evaluate-performance/performance-reference
