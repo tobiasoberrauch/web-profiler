@@ -4,6 +4,7 @@
 - http://remotedebug.org/
 
 ## Optimization
+- Website Performence Optimization: https://www.youtube.com/watch?v=GNAENzKdciQ&list=PLAwxTw4SYaPmKmNX-INgcxQWf30KuWa_A
 - Why? http://www.fastcompany.com/1825005/how-one-second-could-cost-amazon-16-billion-sales
 - JS: script defer
 - CSS: https://github.com/filamentgroup/loadCSS (https://github.com/addyosmani/critical)
