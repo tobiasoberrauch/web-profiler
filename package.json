@@ -1,15 +1,23 @@
 {
-  "name": "automated-chrome-profiling",
+  "name": "chrome-profiler",
   "version": "1.0.0",
   "description": "A few scripts to get started",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": {
+    "chrome-profiler": "./bin/chrome-profiler"
   },
   "author": "",
   "license": "Apache-2.0",
-  "repository": "https://github.com/paulirish/automated-chrome-profiling",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tobiasoberrauch/chrome-profiler"
+  },
   "dependencies": {
     "devtools-timeline-model": "^1.0",
     "chrome-remote-interface": "^0.11.0"
+  },
+  "devDependencies": {
+    "chrome-devtools-api": "0.0.3",
+    "gulp": "^3.9.1",
+    "gulp-connect": "^4.2.0"
   }
 }
