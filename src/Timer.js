@@ -1,5 +1,5 @@
 class Timer {
-    contrustor() {
+    constructor() {
         this.count = this.sum = 0;
         this.max = this.min = null;
 

@@ -1,46 +1,52 @@
 const fs = require('fs');
 const TimelineMetrics = require('./TimelineMetrics');
-
-var TRACE_CATEGORIES = ["-*", "devtools.timeline", "disabled-by-default-devtools.timeline", "disabled-by-default-devtools.timeline.frame", "toplevel", "blink.console", "disabled-by-default-devtools.timeline.stack", "disabled-by-default-devtools.screenshot", "disabled-by-default-v8.cpu_profile"];
-var rawEvents = [];
+const TimelineModel = require('devtools-timeline-model');
 
 class TimelineTracer {
-    constructor() {
-        this.timelineMetrics = new TimelineMetrics();
+    constructor(config) {
+        let defaultConfig = {
+            url: 'http://www.google.com',
+            directory: 'profiles/',
+            fileNamePrefix: 'profile-'
+        };
+        this.categories = ["-*", "devtools.timeline", "disabled-by-default-devtools.timeline", "disabled-by-default-devtools.timeline.frame", "toplevel", "blink.console", "disabled-by-default-devtools.timeline.stack", "disabled-by-default-devtools.screenshot", "disabled-by-default-v8.cpu_profile"];
+
+        this.config = config || defaultConfig;
+        this.rawEvents = [];
+
+        this.timelineMetrics = new TimelineMetrics(this.config);
     }
 
     run(chrome) {
         chrome.Page.enable();
         chrome.Tracing.start({
-            "categories": TRACE_CATEGORIES.join(','),
-            "options": "sampling-frequency=10000"  // 1000 is default and too slow.
+            categories: this.categories.join(','),
+            options: "sampling-frequency=10000"
         });
 
-        chrome.Page.navigate({'url': 'http://paulirish.com'});
-        chrome.Page.loadEventFired(function () {
-            chrome.Tracing.end()
+        chrome.Page.navigate({
+            url: this.config.url
         });
+        chrome.Page.loadEventFired(() => chrome.Tracing.end());
 
-        chrome.Tracing.tracingComplete(function () {
-            var file = 'profile-' + Date.now() + '.devtools.trace';
-            fs.writeFileSync(file, JSON.stringify(rawEvents, null, 2));
-            console.log('Trace file: ' + file);
-            console.log('You can open the trace file in DevTools Timeline panel. (Turn on experiment: Timeline tracing based JS profiler)\n');
+        chrome.Tracing.tracingComplete(() => {
+            var fileName = this.config.directory + this.config.fileNamePrefix + 'trace.raw.json';
+            fs.writeFileSync(fileName, JSON.stringify(this.rawEvents, null, 2));
 
-            this.timelineMetrics.report(file);
+            console.log('Saved raw data: ' + fileName);
 
+            this.timelineMetrics.report();
+
+            let timelineModel = new TimelineModel(this.rawEvents);
+            // console.log(timelineModel.tracingModel());
+            
             chrome.close();
         });
 
-        chrome.Tracing.dataCollected(function (data) {
-            var events = data.value;
-            rawEvents = rawEvents.concat(events);
-
-            // this is just extra but not really important
-            this.timelineMetrics.onData(events)
+        chrome.Tracing.dataCollected((data) => {
+            this.rawEvents = this.rawEvents.concat(data.value);
+            this.timelineMetrics.onData(data.value)
         });
-
-
     }
 }
 

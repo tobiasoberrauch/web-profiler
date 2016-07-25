@@ -1,70 +1,77 @@
 const fs = require('fs');
+const merge = require('object-merge');
 const Timer = require('./Timer');
 
 
 class TimelineMetrics {
-    constructor() {
+    constructor(config) {
+        let defaultConfig = {
+            url: 'http://www.google.com',
+            directory: 'profiles/',
+            fileNamePrefix: 'profile-'
+        };
+
+        this.config = config || defaultConfig;
+
         this.timelineMetrics = {};
         this.eventStacks = {};
     }
     onData(events) {
-        events.forEach((event) =>
-            this.processTracingRecord_(event)
-        )
+        events.forEach((event) => this.processTracingRecord(event))
     }
-    report(file){
-        var filename = file + '.summary.json';
+    report(){
+        var fileName = this.config.directory + this.config.fileNamePrefix + 'trace.json';
 
-        var arr = Object.keys(tm.timelineMetrics).map(k => {
+        var arr = Object.keys(this.timelineMetrics).map(key => {
             var obj = {};
-            obj[k] = tm.timelineMetrics[k];
+            obj[key] = this.timelineMetrics[key];
             return obj;
-        }).sort((a,b) =>
-            b[Object.keys(b)].sum - a[Object.keys(a)].sum
-        );
+        }).sort((a,b) => {
+            return b[Object.keys(b)].sum - a[Object.keys(a)].sum;
+        });
 
         var data = JSON.stringify(arr, null, 2);
-        fs.writeFileSync(filename, data);
+        fs.writeFileSync(fileName, data);
 
-        console.log('Recording Summary: ' + filename);
+        console.log('Saved recording summary: ' + fileName);
     }
-    addSummaryData_(e, source) {
+    addSummaryData(e, source) {
         if (typeof this.timelineMetrics[e.type] === 'undefined') {
             this.timelineMetrics[e.type] = new Timer();
         }
         this.timelineMetrics[e.type].add(e.startTime && e.endTime ? e.endTime - e.startTime : 0);
     }
-    processTracingRecord_(e) {
-        switch (e.ph) {
+    processTracingRecord(event) {
+        switch (event.ph) {
             case 'I': // Instant Event
             case 'X': // Duration Event
-                var duration = e.dur || e.tdur || 0;
-                this.addSummaryData_({
-                    type: e.name,
-                    data: e.args ? e.args.data : {},
-                    startTime: e.ts / 1000,
-                    endTime: (e.ts + duration) / 1000
+                var duration = event.dur || event.tdur || 0;
+                this.addSummaryData({
+                    type: event.name,
+                    data: event.args ? event.args.data : {},
+                    startTime: event.ts / 1000,
+                    endTime: (event.ts + duration) / 1000
                 }, 'tracing');
                 break;
             case 'B': // Begin Event
-                if (typeof this.eventStacks[e.tid] === 'undefined') {
-                    this.eventStacks[e.tid] = [];
+                if (typeof this.eventStacks[event.tid] === 'undefined') {
+                    this.eventStacks[event.tid] = [];
                 }
-                this.eventStacks[e.tid].push(e);
+                this.eventStacks[event.tid].push(event);
                 break;
             case 'E': // End Event
-                if (typeof this.eventStacks[e.tid] === 'undefined' || this.eventStacks[e.tid].length === 0) {
-                    debug('Encountered an end event that did not have a start event', e);
+                if (typeof this.eventStacks[event.tid] === 'undefined' || this.eventStacks[event.tid].length === 0) {
+                    debug('Encountered an end event that did not have a start event', event);
                 } else {
-                    var b = this.eventStacks[e.tid].pop();
-                    if (b.name !== e.name) {
-                        debug('Start and end events dont have the same name', e, b);
+                    var b = this.eventStacks[event.tid].pop();
+                    if (b.name !== event.name) {
+                        debug('Start and end events dont have the same name', event, b);
                     }
-                    this.addSummaryData_({
-                        type: e.name,
-                        data: Object.assign(e.args.endData, b.args.beginData),
+                    this.addSummaryData({
+                        type: event.name,
+                        data: merge(event.args.endData, b.args.beginData),
                         startTime: b.ts / 1000,
-                        endTime: e.ts / 1000
+                        endTime: event.ts / 1000
                     }, 'tracing');
                 }
                 break;
