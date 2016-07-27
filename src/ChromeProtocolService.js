@@ -1,4 +1,5 @@
 const https = require('https');
+const util = require('util');
 
 class ChromeProtocolService {
     constructor() {

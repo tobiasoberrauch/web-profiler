@@ -1,49 +1,59 @@
 const fs = require('fs');
 const TimelineMetrics = require('./TimelineMetrics');
-const TimelineModel = require('devtools-timeline-model');
+const merge = require('object-merge');
 
 class TimelineTracer {
-    constructor(config) {
+    constructor(chrome, config) {
         let defaultConfig = {
-            url: 'http://www.google.com',
             directory: 'profiles/',
-            fileNamePrefix: 'profile-'
+            fileNamePrefix: 'profile-',
+            categories: [
+                "-*",
+                "devtools.timeline",
+                "disabled-by-default-devtools.timeline",
+                "disabled-by-default-devtools.timeline.frame",
+                "toplevel",
+                "blink.console",
+                "disabled-by-default-devtools.timeline.stack",
+                "disabled-by-default-devtools.screenshot",
+                "disabled-by-default-v8.cpu_profile"
+            ]
         };
-        this.categories = ["-*", "devtools.timeline", "disabled-by-default-devtools.timeline", "disabled-by-default-devtools.timeline.frame", "toplevel", "blink.console", "disabled-by-default-devtools.timeline.stack", "disabled-by-default-devtools.screenshot", "disabled-by-default-v8.cpu_profile"];
+        this.config = merge(defaultConfig, config);
 
-        this.config = config || defaultConfig;
+        this.chromeRuntime = chrome;
         this.rawEvents = [];
 
         this.timelineMetrics = new TimelineMetrics(this.config);
     }
 
-    run(chrome) {
-        chrome.Page.enable();
-        chrome.Tracing.start({
-            categories: this.categories.join(','),
+    run(url, next) {
+        this.chromeRuntime.Page.enable();
+        this.chromeRuntime.Tracing.start({
+            categories: this.config.categories.join(','),
             options: "sampling-frequency=10000"
         });
 
-        chrome.Page.navigate({
-            url: this.config.url
+        this.chromeRuntime.Page.navigate({
+            url: url
         });
-        chrome.Page.loadEventFired(() => chrome.Tracing.end());
+        this.chromeRuntime.Page.loadEventFired(() => this.chromeRuntime.Tracing.end());
 
-        chrome.Tracing.tracingComplete(() => {
+        this.chromeRuntime.Tracing.tracingComplete(() => {
             var fileName = this.config.directory + this.config.fileNamePrefix + 'trace.raw.json';
-            fs.writeFileSync(fileName, JSON.stringify(this.rawEvents, null, 2));
+            var data = JSON.stringify(this.rawEvents, null, 2);
+            fs.writeFileSync(fileName, data);
 
             console.log('Saved raw data: ' + fileName);
 
             this.timelineMetrics.report();
-
-            let timelineModel = new TimelineModel(this.rawEvents);
-            // console.log(timelineModel.tracingModel());
             
-            chrome.close();
+            this.chromeRuntime.close();
+
+            next(null, data);
         });
 
-        chrome.Tracing.dataCollected((data) => {
+        this.chromeRuntime.Tracing.dataCollected((data) => {
             this.rawEvents = this.rawEvents.concat(data.value);
             this.timelineMetrics.onData(data.value)
         });

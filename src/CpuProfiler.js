@@ -1,29 +1,29 @@
-class CpuProfiler {
-    constructor() {
+const fs = require('fs');
 
+class CpuProfiler {
+    constructor(config) {
+        this.config = config;
     }
 
-    run (chrome) {
+    run(chrome) {
         chrome.Page.enable();
-        chrome.Page.loadEventFired(function () {
-            // on load we'll start profiling, kick off the test, and finish
-            // alternatively, Profiler.start(), Profiler.stop() are accessible via chrome-remote-interface
-            chrome.Runtime.evaluate({"expression": "console.profile(); startTest(); console.profileEnd();"});
-        });
-
         chrome.Profiler.enable();
         chrome.Profiler.setSamplingInterval({
             interval: 100
-        }, function () {
-            chrome.Page.navigate({'url': 'http://localhost:8080/demo/perf-test.html'});
         });
+        chrome.Profiler.start();
 
-        chrome.Profiler.consoleProfileFinished(function (parameters) {
-            var file = 'profile-' + Date.now() + '.cpuprofile';
+        chrome.Page.navigate({
+            url: this.config.url
+        });
+        chrome.Page.loadEventFired(() => chrome.Profiler.end());
+        
+        chrome.Profiler.consoleProfileFinished((parameters) => {
+            var fileName = this.config.directory + this.config.fileNamePrefix + '.cpuprofile.json';
             var data = JSON.stringify(parameters.profile, null, 2);
-            fs.writeFileSync(file, data);
+            fs.writeFileSync(fileName, data);
 
-            console.log('Done! See ' + file);
+            console.log('Saved cpi profile: ' + fileName);
             chrome.close();
         });
     }
