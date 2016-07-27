@@ -7,24 +7,33 @@ class CpuProfiler {
 
     run(chrome) {
         chrome.Page.enable();
+        chrome.Page.loadEventFired(function () {
+            // on load we'll start profiling, kick off the test, and finish
+            // alternatively, Profiler.start(), Profiler.stop() are accessible via chrome-remote-interface
+            chrome.Runtime.evaluate({"expression": "console.profile(); startTest(); console.profileEnd();"});
+        });
+
         chrome.Profiler.enable();
-        chrome.Profiler.setSamplingInterval({
-            interval: 100
-        });
-        chrome.Profiler.start();
 
-        chrome.Page.navigate({
-            url: this.config.url
+        // 100 microsecond JS profiler sampling resolution, (1000 is default)
+        chrome.Profiler.setSamplingInterval({'interval': 100}, function () {
+            chrome.Page.navigate({'url': 'http://localhost:8080/demo/perf-test.html'});
         });
-        chrome.Page.loadEventFired(() => chrome.Profiler.end());
-        
-        chrome.Profiler.consoleProfileFinished((parameters) => {
-            var fileName = this.config.directory + this.config.fileNamePrefix + '.cpuprofile.json';
-            var data = JSON.stringify(parameters.profile, null, 2);
-            fs.writeFileSync(fileName, data);
 
-            console.log('Saved cpi profile: ' + fileName);
-            chrome.close();
+        chrome.Profiler.consoleProfileFinished(function (params) {
+            // CPUProfile object (params.profile) described here:
+            //    https://code.google.com/p/chromium/codesearch#chromium/src/third_party/WebKit/Source/devtools/protocol.json&q=protocol.json%20%22CPUProfile%22,&sq=package:chromium
+
+            // Either:
+            // 1. process the data however you wish… or,
+            // 2. Use the JSON file, open Chrome DevTools, Profiles tab,
+            //    select CPU Profile radio button, click `load` and view the
+            //    profile data in the full devtools UI.
+            var file = 'profile-' + Date.now() + '.cpuprofile';
+            var data = JSON.stringify(params.profile, null, 2);
+            fs.writeFileSync(file, data);
+            console.log('Done! See ' + file);
+            close();
         });
     }
 }

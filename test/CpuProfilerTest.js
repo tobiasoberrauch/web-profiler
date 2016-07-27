@@ -1,36 +1,26 @@
-
-const launcher = require('browser-launcher');
-const Chrome = require('chrome-remote-interface');
 const CpuProfiler = require('../src/CpuProfiler');
-const config = {
-    url: 'https://www.casual-fashion.com/de_de',
-    directory: 'profiles/',
-    fileNamePrefix: 'cf-'
-};
 
+class CpuProfilerTest {
+    constructor(testRunner) {
 
-launcher(function (err, launch) {
-    if (err) {
-        return console.error(err);
     }
 
-    var opts = {
-        browser: 'chrome',
-        options: ['--remote-debugging-port=9222', '--disable-hang-monitor']
-    };
+    setUp() {
+        this.config = {
+            url: 'https://www.casual-fashion.com/de_de',
+            directory: 'profiles/',
+            fileNamePrefix: 'cf-'
+        };
+    }
 
-    launch(config.url, opts, function (err, ps) {
-        if (err) {
-            return console.error(err);
-        }
+    tearDown() {
 
-        setTimeout(function () {
-            Chrome(function (chrome) {
-                const cpuProfiler = new CpuProfiler(config);
-                cpuProfiler.run(chrome);
-            });
-        }, 1000);
-    });
+    }
 
+    testRun(chrome) {
+        const cpuProfiler = new CpuProfiler(this.config);
+        cpuProfiler.run(chrome);
+    }
+}
 
-});
+module.exports = CpuProfilerTest;

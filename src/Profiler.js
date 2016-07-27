@@ -1,7 +1,7 @@
 const async = require('async');
 const bigrig = require('bigrig');
 const Chrome = require('chrome-remote-interface');
-const TimelineTracer = require('./src/TimelineTracer');
+const TimelineTracer = require('./TimelineTracer');
 const launcher = require('browser-launcher');
 const findPort = require("find-free-port");
 
