@@ -1,15 +1,15 @@
 {
-  "name": "chrome-profiler",
+  "name": "web-profiler",
   "version": "1.0.0",
   "description": "A few scripts to get started",
   "bin": {
-    "chrome-profiler": "./bin/chrome-profiler"
+    "web-profiler": "./bin/web-profiler"
   },
   "author": "",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tobiasoberrauch/chrome-profiler"
+    "url": "https://github.com/tobiasoberrauch/web-profiler"
   },
   "dependencies": {
     "async": "^2.0.1",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "chrome-devtools-api": "0.0.3",
     "gulp": "^3.9.1",
-    "gulp-connect": "^4.2.0"
+    "gulp-connect": "^4.2.0",
+    "sitespeed.io": "^3.11.8"
   }
 }

@@ -1,24 +1,16 @@
 #!/usr/bin/env node
 
-const launcher = require('browser-launcher');
-
-launcher(function (err, launch) {
-    if (err) {
-        return console.error(err);
-    }
-    // XDEBUG_SESSION=PHPSTORM
-
-    let url = 'http://www.casual-fashion.dev';
-    let opts = {
-        browser: 'chrome',
-        options: ['--remote-debugging-port=9222', '--disable-hang-monitor']
-    };
-    launch(url, opts, function (err) {
-        if (err) {
-            return console.error(err);
-        }
+const fs = require('fs');
+const Sitespeed = require('sitespeed.io');
 
 
-    });
-
+let sitespeed = new Sitespeed();
+sitespeed.run({
+    sites: [
+        'https://www.casual-fashion.com'
+    ],
+    resultBaseDir: 'data/sitespeed'
+}, function (err, data) {
+    var file = './data/sitespeed/sitespeed-' + Date.now() + '.json';
+    fs.writeFileSync(file, JSON.stringify(data, null, 2));
 });
