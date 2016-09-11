@@ -1,0 +1,56 @@
+<section class="popup popup-advices">
+	<header>
+		<h2>Info</h2>
+		<a class="modal-link near-score" href="{{firstCtrl.ModalWebPageKey}}" target="_blank">{{firstCtrl.ModalWebPageKey}}</a>
+		<button class="button-close" ng-click="closeThisDialog()">&times;</button>
+
+		<div class="modal-score" ng-if="firstCtrl.ShowMobile" ng-init="scoreMobile=firstCtrl.SpeedTests.newResults.mobile[firstCtrl.ModalWebPageKey].ruleGroups.SPEED.score">
+			Mobile Score:
+			<span class="modal-score-number" ng-class="scoreMobile >= firstCtrl.MinimumPassScore ? 'status-positive' : 'status-negative'"> {{scoreMobile}}</span>
+		</div>
+		<div class="modal-score" ng-if="firstCtrl.ShowDesktop" ng-init="scoreDesktop=firstCtrl.SpeedTests.newResults.desktop[firstCtrl.ModalWebPageKey].ruleGroups.SPEED.score">
+			Desktop Score:
+			<span class="modal-score-number" ng-class="scoreDesktop >= firstCtrl.MinimumPassScore ? 'status-positive' : 'status-negative'"> {{scoreDesktop}}</span>
+		</div>
+	</header>
+
+	<div ng-if="firstCtrl.ShowMobile">
+		<span ng-init="advices=firstCtrl.GetGoogleAdvices('mobile')"></span>
+		<p ng-if="firstCtrl.GetKeys(advices).length == 0">No data</p>
+		<ul ng-if="firstCtrl.GetKeys(advices).length > 0">
+			<li ng-repeat="adviceKey in firstCtrl.GetKeys(advices)">
+				<div class="error-title" title="{{advices[adviceKey].summary.format}}">
+					{{advices[adviceKey].localizedRuleName}}
+				</div>
+				<div class="error-position">
+					<div class="one-line" ng-init="advices[adviceKey].style = advices[adviceKey].ruleImpact >= 10 ? {'color':'#db5880'} : advices[adviceKey].ruleImpact > 0 ? {'color':'rgb(226, 215, 0)'} : {'color':'#5fc187'}">
+						Impact: <strong ng-style="advices[adviceKey].style">{{advices[adviceKey].ruleImpact}}</strong>
+					</div>
+					<div class="one-line">
+						Affects: <strong>{{advices[adviceKey].groups.join(', ')}}</strong>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<div ng-if="firstCtrl.ShowDesktop">
+		<span ng-init="advices=firstCtrl.GetGoogleAdvices('desktop')"></span>
+		<p ng-if="firstCtrl.GetKeys(advices).length == 0">No data</p>
+		<ul ng-if="firstCtrl.GetKeys(advices).length > 0">
+			<li ng-repeat="adviceKey in firstCtrl.GetKeys(advices)">
+				<div class="error-title" title="{{advices[adviceKey].summary.format}}">
+					{{advices[adviceKey].localizedRuleName}}
+				</div>
+				<div class="error-position">
+					<div class="one-line" ng-init="advices[adviceKey].style = advices[adviceKey].ruleImpact >= 10 ? {'color':'#db5880'} : advices[adviceKey].ruleImpact > 0 ? {'color':'rgb(226, 215, 0)'} : {'color':'#5fc187'}">
+						Impact: <strong ng-style="advices[adviceKey].style">{{advices[adviceKey].ruleImpact}}</strong>
+					</div>
+					<div class="one-line">
+						Affects: <strong>{{advices[adviceKey].groups.join(', ')}}</strong>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>

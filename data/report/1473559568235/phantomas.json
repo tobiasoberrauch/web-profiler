@@ -1,0 +1,206 @@
+{
+  "generator": "phantomas v1.16.0",
+  "url": "https://www.casual-fashion.com/de_de",
+  "metrics": {
+    "requests": 2,
+    "gzipRequests": 1,
+    "postRequests": 0,
+    "httpsRequests": 2,
+    "notFound": 0,
+    "bodySize": 3731,
+    "contentLength": 3730,
+    "httpTrafficCompleted": 1407,
+    "timeToFirstByte": 597,
+    "timeToLastByte": 741,
+    "ajaxRequests": 0,
+    "htmlCount": 2,
+    "htmlSize": 3730,
+    "cssCount": 0,
+    "cssSize": 0,
+    "jsCount": 0,
+    "jsSize": 0,
+    "jsonCount": 0,
+    "jsonSize": 0,
+    "imageCount": 0,
+    "imageSize": 0,
+    "videoCount": 0,
+    "videoSize": 0,
+    "webfontCount": 0,
+    "webfontSize": 0,
+    "base64Count": 0,
+    "base64Size": 0,
+    "otherCount": 0,
+    "otherSize": 0,
+    "cacheHits": 0,
+    "cacheMisses": 0,
+    "cachePasses": 0,
+    "cachingNotSpecified": 0,
+    "cachingTooShort": 0,
+    "cachingDisabled": 0,
+    "oldCachingHeaders": 4,
+    "consoleMessages": 0,
+    "cookiesSent": 0,
+    "cookiesRecv": 200,
+    "domainsWithCookies": 1,
+    "documentCookiesLength": 36,
+    "documentCookiesCount": 1,
+    "documentHeight": 0,
+    "commentsSize": 0,
+    "whiteSpacesSize": 0,
+    "DOMelementsCount": 0,
+    "DOMelementMaxDepth": 0,
+    "nodesWithInlineCSS": 0,
+    "imagesScaledDown": 0,
+    "imagesWithoutDimensions": 0,
+    "DOMidDuplicated": 0,
+    "hiddenContentSize": 0,
+    "hiddenImages": 0,
+    "DOMmutationsInserts": 0,
+    "DOMmutationsRemoves": 0,
+    "DOMmutationsAttributes": 0,
+    "DOMqueries": 0,
+    "DOMqueriesWithoutResults": 0,
+    "DOMqueriesById": 0,
+    "DOMqueriesByClassName": 0,
+    "DOMqueriesByTagName": 0,
+    "DOMqueriesByQuerySelectorAll": 0,
+    "DOMinserts": 0,
+    "DOMqueriesDuplicated": 0,
+    "DOMqueriesAvoidable": 0,
+    "domains": 1,
+    "maxRequestsPerDomain": 2,
+    "medianRequestsPerDomain": 2,
+    "eventsBound": 2,
+    "eventsDispatched": 0,
+    "eventsScrollBound": 0,
+    "globalVariables": 0,
+    "globalVariablesFalsy": 0,
+    "headersCount": 35,
+    "headersSentCount": 16,
+    "headersRecvCount": 19,
+    "headersSize": 1586,
+    "headersSentSize": 776,
+    "headersRecvSize": 810,
+    "headersBiggerThanContent": 1,
+    "jQueryVersion": "",
+    "jQueryVersionsLoaded": 0,
+    "jQueryOnDOMReadyFunctions": 0,
+    "jQueryWindowOnLoadFunctions": 0,
+    "jQuerySizzleCalls": 0,
+    "jQueryEventTriggers": 0,
+    "jQueryDOMReads": 0,
+    "jQueryDOMWrites": 0,
+    "jQueryDOMWriteReadSwitches": 0,
+    "documentWriteCalls": 0,
+    "evalCalls": 0,
+    "jsErrors": 2,
+    "closedConnections": 0,
+    "lazyLoadableImagesBelowTheFold": 0,
+    "localStorageEntries": 0,
+    "redirects": 1,
+    "redirectsTime": 665,
+    "repaints": 0,
+    "firstPaint": 0,
+    "requestsToFirstPaint": 0,
+    "domainsToFirstPaint": 0,
+    "requestsToDomContentLoaded": 0,
+    "domainsToDomContentLoaded": 0,
+    "requestsToDomComplete": 0,
+    "domainsToDomComplete": 0,
+    "assetsNotGzipped": 0,
+    "assetsWithQueryString": 0,
+    "assetsWithCookies": 0,
+    "smallImages": 0,
+    "smallCssFiles": 0,
+    "smallJsFiles": 0,
+    "multipleRequests": 0,
+    "timeToFirstCss": 0,
+    "timeToFirstJs": 0,
+    "timeToFirstImage": 0,
+    "domInteractive": 0,
+    "domContentLoaded": 0,
+    "domContentLoadedEnd": 0,
+    "domComplete": 0,
+    "timeBackend": 100,
+    "timeFrontend": 0,
+    "requestsWithTimeout": 4,
+    "statusCodesTrail": "302,200",
+    "windowAlerts": 0,
+    "windowConfirms": 0,
+    "windowPrompts": 0,
+    "bodyHTMLSize": 0,
+    "iframesCount": 0,
+    "smallestResponse": 3730,
+    "biggestResponse": 3730,
+    "fastestResponse": 741,
+    "slowestResponse": 741,
+    "smallestLatency": 597,
+    "biggestLatency": 597,
+    "medianResponse": 741,
+    "medianLatency": 597
+  },
+  "offenders": {
+    "gzipRequests": [
+      "https://www.casual-fashion.com/de_de (gzip: 3.64 kB / uncompressed: 3.64 kB)"
+    ],
+    "httpsRequests": [
+      "https://www.casual-fashion.com/",
+      "https://www.casual-fashion.com/de_de"
+    ],
+    "htmlCount": [
+      "https://www.casual-fashion.com/ (0.00 kB)",
+      "https://www.casual-fashion.com/de_de (3.64 kB)"
+    ],
+    "oldCachingHeaders": [
+      "https://www.casual-fashion.com/ - Expires: Thu, 19 Nov 1981 08:52:00 GMT",
+      "https://www.casual-fashion.com/ - Pragma: no-cache",
+      "https://www.casual-fashion.com/de_de - Expires: Thu, 19 Nov 1981 08:52:00 GMT",
+      "https://www.casual-fashion.com/de_de - Pragma: no-cache"
+    ],
+    "domainsWithCookies": [
+      "www.casual-fashion.com: 2 cookie(s)"
+    ],
+    "domains": [
+      "www.casual-fashion.com: 2 request(s)"
+    ],
+    "eventsBound": [
+      "\"DOMContentLoaded\" bound to \"#document\"",
+      "\"load\" bound to \"window\""
+    ],
+    "headersBiggerThanContent": [
+      "https://www.casual-fashion.com/ (body: 0.00 kB / headers: 0.49 kB)"
+    ],
+    "jsErrors": [
+      "TypeError: null is not an object (evaluating 'body.scrollHeight') - unknown fn: undefined @ 7 / unknown fn:  @ 8",
+      "TypeError: null is not an object (evaluating 'document.body.getElementsByTagName') - unknown fn: undefined @ 5 / unknown fn:  @ 59 / unknown fn:  @ 60"
+    ],
+    "redirects": [
+      "https://www.casual-fashion.com/ is a redirect (HTTP 302 Moved Temporarily) to /de_de (took 665 ms)"
+    ],
+    "requestsWithTimeout": [
+      "https://www.casual-fashion.com/css/style_core.css?c=b4eff6",
+      "https://www.casual-fashion.com/css/style_additional.css?c=b4eff6",
+      "https://www.casual-fashion.com/js/modernizr.js",
+      "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+    ],
+    "smallestResponse": [
+      "https://www.casual-fashion.com/de_de (3.64 kB)"
+    ],
+    "biggestResponse": [
+      "https://www.casual-fashion.com/de_de (3.64 kB)"
+    ],
+    "fastestResponse": [
+      "https://www.casual-fashion.com/de_de (741 ms)"
+    ],
+    "slowestResponse": [
+      "https://www.casual-fashion.com/de_de (741 ms)"
+    ],
+    "smallestLatency": [
+      "https://www.casual-fashion.com/de_de (597 ms)"
+    ],
+    "biggestLatency": [
+      "https://www.casual-fashion.com/de_de (597 ms)"
+    ]
+  },
+  "asserts": false
+}

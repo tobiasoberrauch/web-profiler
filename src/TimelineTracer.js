@@ -19,7 +19,7 @@ class TimelineTracer {
                 "disabled-by-default-v8.cpu_profile"
             ]
         };
-        this.config = merge(defaultConfig, config);
+        this.config = merge(defaultConfig, config || {});
 
         this.chromeRuntime = chrome;
         this.rawEvents = [];
