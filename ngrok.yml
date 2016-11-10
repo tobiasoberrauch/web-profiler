@@ -1,0 +1,13 @@
+authtoken: 21myyVs9Xx7wc83TF3MwH_21ctYoDJYNZJMeuUYAhcv
+region: eu
+console_ui: true
+log: ./ngrok.log
+log_level: info
+log_format: json
+update: true
+update_channel: stable
+
+tunnels:
+  web:
+    addr: 80
+    proto: http
